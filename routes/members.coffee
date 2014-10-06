@@ -4,6 +4,7 @@ Member = require "../db/models/member.coffee"
 util = require "../common/util.coffee"
 {requireLogin} = require "./helpers.coffee"
 
+
 router.post '/session', (req, res)->
     {name, password} = req.body
     Member.findOne {name}, (err, member)->

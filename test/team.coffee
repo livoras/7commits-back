@@ -6,7 +6,6 @@ config = require "../config.coffee"
 app = require "../app.coffee"
 Member = require "../db/models/member.coffee"
 util = require "../common/util.coffee"
-clear = (require "mocha-mongoose")(config.TEST_DB_URI, {noClear: true})
 request = (require "supertest").agent(app)
 
 Team = require "../db/models/team.coffee"
