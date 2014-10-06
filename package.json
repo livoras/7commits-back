@@ -28,6 +28,7 @@
     "chai": "~1.9.1",
     "mocha": "~1.21.4",
     "mongodb": "~1.4.18",
-    "mocha-mongoose": "~1.0.1"
+    "mocha-mongoose": "~1.0.1",
+    "express-session": "~1.8.2"
   }
 }

@@ -1,8 +1,7 @@
 express = require 'express'
 router = express.Router()
 
-router.get '/', (req, res)->
-    # res.json {"FUCK": "YOU"}
+router.get '/login', (req, res)->
     res.render "home"
 
 module.exports = router

@@ -10,3 +10,4 @@ config.IMG_ROOT = "/uploads/images"
 
 config.TEST_DB_URI = "mongodb://localhost/mocha-test"
 config.PRODUCTION_DB_URI = "mongodb://localhost/7commits"
+config.SECRET_KEY = "io3cnt012nvz9n5-a02bf0an1-5n"
