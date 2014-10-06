@@ -4,8 +4,14 @@ chai.should()
 
 config = require "../config.coffee"
 app = require "../app.coffee"
-Sample = require "../db/models/sample.coffee"
 clear = (require "mocha-mongoose")(config.TEST_DB_URI)
+
+Sample = require "../db/models/sample.coffee"
+Team = require "../db/models/team.coffee"
+Post = require "../db/models/post.coffee"
+Comment = require "../db/models/comment.coffee"
+Tag = require "../db/models/tag.coffee"
+Member = require "../db/models/member.coffee"
 
 describe "每个测试用例后会清空数据库", ->
     id = null
