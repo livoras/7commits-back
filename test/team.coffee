@@ -4,6 +4,8 @@ chai.should()
 
 config = require "../config.coffee"
 app = require "../app.coffee"
+Member = require "../db/models/member.coffee"
+util = require "../common/util.coffee"
 clear = (require "mocha-mongoose")(config.TEST_DB_URI, {noClear: true})
 request = (require "supertest").agent(app)
 
@@ -39,3 +41,19 @@ describe "团队信息相关", ->
                             team.introduction.should.equal teamData.introduction
                             team.shortIntroduction.should.equal teamData.shortIntroduction
                             done()
+
+    describe "已登录，但无权限修改", ->
+        before (done)->
+            Member.create {name: "fuck", password: util.encrypt("456789")}, ->
+                request.post("/members/session")
+                       .send({name: "fuck", password: "456789"})
+                       .end done
+        it "保存团队信息失败", ->
+            teamData = {introduction: "cao", shortIntroduction: "hehe"}
+            request.put("/team")
+                   .send(teamData)
+                   .expect(401)
+                   .end (err, res)->
+                        res.body.result.should.equal "fail"
+
+

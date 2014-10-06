@@ -2,7 +2,7 @@ express = require 'express'
 router = express.Router()
 Member = require "../db/models/member.coffee"
 util = require "../common/util.coffee"
-{requireAdmin} = require "./helpers.coffee"
+{requireLogin} = require "./helpers.coffee"
 
 router.post '/session', (req, res)->
     {name, password} = req.body
@@ -18,7 +18,7 @@ router.post '/session', (req, res)->
         res.json {result: "success"}
 
 
-router.delete '/session', requireAdmin, (req, res)->
+router.delete '/session', requireLogin, (req, res)->
     req.session.destroy()
     res.json {result: "success"}
 

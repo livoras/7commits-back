@@ -62,5 +62,6 @@ describe "测试成员相关操作", ->
                    .send({})
                    .expect(400)
                    .end (err, res)->
-                        res.body.result.should.equal "Please login first."
+                        res.body.result.should.equal "fail"
+                        res.body.msg.should.equal "Please login first."
                         done()
