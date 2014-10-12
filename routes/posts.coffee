@@ -25,14 +25,15 @@ updateTagsByPost = (post, tagNames, callback)->
         if count is 0 then callback?(tagIds)
 
     for tagName in tagNames
-        Tag.findOne {name: tagName}, (err, tag)->
-            if not tag
-                Tag.create {name: tagName, posts: [post._id]}, (err, tag)->
+        do (tagName)->
+            Tag.findOne {name: tagName}, (err, tag)->
+                if not tag
+                    Tag.create {name: tagName, posts: [post._id]}, (err, tag)->
+                        tagIds.push tag._id
+                        checkDone()
+                else
                     tagIds.push tag._id
-                    checkDone()
-            else
-                tagIds.push tag._id
-                tag.posts.addToSet post._id
-                tag.save checkDone
+                    tag.posts.addToSet post._id
+                    tag.save checkDone
 
 module.exports = router
