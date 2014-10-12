@@ -5,8 +5,9 @@ _ = require "lodash"
 {requireLogin} = require "./helpers.coffee"
 Post = require "../db/models/post.coffee"
 Tag =  require "../db/models/tag.coffee"
+Comment =  require "../db/models/comment.coffee"
 
-router.post '/', requireLogin, (req, res)->
+router.post "/", requireLogin, (req, res)->
     postData = req.body
     tagNames = postData.tags
     postData.creator = req.session.member._id
@@ -16,6 +17,23 @@ router.post '/', requireLogin, (req, res)->
         post.save -> 
             result = _.extend post.toJSON(), {id: post._id}
             res.json result
+
+router.delete "/:id", requireLogin, (req, res)->
+    postId = req.params.id
+    Post.findOne {_id: postId}, (err, post)->
+        if not post then return res.status(404).json {result: "fail", msg: "Post is not found."}
+        if checkPrivilege(post, req)
+            return res.status(401).json {result: "fail", msg: "You have no privilege."}
+        deletePostAndItsContent postId, res
+
+checkPrivilege = (post, req)->
+    req.session.isAdmin or req.session.member._id is post.creator
+
+deletePostAndItsContent = (postId, res)->
+    Post.remove {_id: postId}, (err, post)->
+        Tag.removeTagsByPostId postId, ->
+            Comment.removeCommentsByPostId postId, ->
+                res.json {result: "success"}
 
 updateTagsByPost = (post, tagNames, callback)->
     count = 0
