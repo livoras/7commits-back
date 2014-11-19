@@ -20,7 +20,7 @@ Member.createDefaultAdministrator = (callback)->
         if count isnt 0 then callback?(err, count)
         createAdministrator callback
 
-    createAdministrator = (err, count)->
+    createAdministrator = (callback)->
         Member.create {
             name: "admin", 
             password: util.encrypt "123456"
